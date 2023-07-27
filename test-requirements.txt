@@ -1,0 +1,7 @@
+ansible-compat==3.0.2
+ansible-lint==6.2.1
+ansible==5.10.0
+docker==5.0.3
+molecule-docker==1.1.0
+molecule==3.6.1
+urllib3<2.0.0

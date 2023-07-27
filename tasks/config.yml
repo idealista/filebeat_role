@@ -1,0 +1,32 @@
+---
+- name: Filebeat | Ensure Filebeat dirs exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ filebeat_user }}"
+    group: "{{ filebeat_group }}"
+    mode: 0755
+  loop:
+    - "{{ filebeat_config_path }}"
+    - "{{ filebeat_log_path }}"
+    - "{{ filebeat_pid_path }}"
+    - "{{ filebeat_data_path }}"
+    - "/etc/systemd/system/filebeat.service.d"
+
+- name: Filebeat | Configure options for filebeat service
+  template:
+    src: "{{ filebeat_service_config_file }}"
+    dest: /etc/systemd/system/filebeat.service.d/default.conf
+    owner: "{{ filebeat_user }}"
+    group: "{{ filebeat_group }}"
+    mode: 0644
+  notify: Restart filebeat
+
+- name: Filebeat | Configure files Filebeat
+  template:
+    src: "{{ filebeat_config_file }}"
+    dest: "{{ filebeat_config_path }}/filebeat.yml"
+    owner: "{{ filebeat_user }}"
+    group: "{{ filebeat_group }}"
+    mode: 0644
+  notify: Restart filebeat

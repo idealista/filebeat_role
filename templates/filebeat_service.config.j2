@@ -1,0 +1,7 @@
+{{ ansible_managed | comment }}
+[Service]
+Environment="BEAT_LOG_OPTS="
+Environment="BEAT_PATH_OPTS=--path.home {{ filebeat_home_path }} --path.config {{ filebeat_config_path }} --path.data {{ filebeat_data_path }} --path.logs {{ filebeat_log_path }}"
+Environment="BEAT_CONFIG_OPTS=--c {{ filebeat_config_path }}/filebeat.yml"
+User={{ filebeat_user }}
+Group={{ filebeat_group }}

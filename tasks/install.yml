@@ -1,0 +1,44 @@
+---
+- name: Filebeat | Ensure Filebeat group
+  group:
+    name: "{{ filebeat_group }}"
+    system: yes
+
+- name: Filebeat | Ensure Filebeat user
+  user:
+    name: "{{ filebeat_user }}"
+    group: "{{ filebeat_group }}"
+    system: yes
+
+- name: Filebeat | Add package dependencies
+  apt:
+    name: "{{ filebeat_package_dependencies }}"
+    state: present
+    update_cache: true
+
+- name: Filebeat | Add gpg key
+  apt_key:
+    url: "{{ filebeat_gpg_key }}"
+    state: present
+
+- name: Filebeat | Add ppa repository
+  apt_repository:
+    repo: "{{ filebeat_ppa_source }}"
+    state: present
+    filename: filebeat
+
+- name: Filebeat | Install filebeat without version defined
+  apt:
+    name: "filebeat"
+    state: "{{ filebeat_package_state }}"
+  notify:
+    - Restart filebeat
+  when: filebeat_version is not defined
+
+- name: Filebeat | Install filebeat {{ filebeat_version }}
+  apt:
+    name: "filebeat={{ filebeat_version }}"
+    state: "{{ filebeat_package_state }}"
+  notify:
+    - Restart filebeat
+  when: filebeat_version is defined

@@ -1,0 +1,5 @@
+---
+- name: Converge
+  hosts: filebeat
+  roles:
+    - role: filebeat_role

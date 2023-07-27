@@ -1,0 +1,15 @@
+---
+- name: Filebeat | Install
+  import_tasks: install.yml
+  tags:
+    - filebeat_install
+
+- name: Filebeat | Configure
+  import_tasks: config.yml
+  tags:
+    - filebeat_configure
+
+- name: Filebeat | Service
+  import_tasks: service.yml
+  tags:
+    - filebeat_service

@@ -1,0 +1,33 @@
+---
+# General
+# Change to latest when you want upgrade to last version
+filebeat_package_state: present
+
+filebeat_version: 8.9.0
+filebeat_major_version: "{{ filebeat_version.split('.')[0] }}"
+filebeat_gpg_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+filebeat_ppa_source: deb https://artifacts.elastic.co/packages/{{ filebeat_major_version }}.x/apt stable main
+
+# Owner
+filebeat_user: filebeat
+filebeat_group: filebeat
+
+# Start on boot
+filebeat_service_enabled: true
+
+# Current state: started, stopped
+filebeat_service_state: started
+
+# Files & Paths
+filebeat_home_path: /usr/share/filebeat
+filebeat_config_path: /etc/filebeat
+filebeat_log_path: /var/log/filebeat
+filebeat_data_path: /var/lib/filebeat
+filebeat_pid_path: /var/run/filebeat
+
+filebeat_config_file: "{{ role_path }}/templates/filebeat.yml.j2"
+filebeat_service_config_file: "{{ role_path }}/templates/filebeat_service.config.j2"
+
+
+filebeat_package_dependencies:
+  - apt-transport-https

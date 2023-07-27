@@ -1,0 +1,14 @@
+---
+## General
+# Owner
+filebeat_config_file: "{{ molecule_scenario_directory }}/templates/filebeat.yml.j2"
+
+# Elasticsearch configuration
+elasticsearch_version: 8.9.0
+elasticsearch_api_host: elastic_filebeat
+elasticsearch_config:
+  node.name: "{{ elasticsearch_api_host }}"
+  network.host: _site_
+  cluster.name: dedup-cluster
+  discovery.type: single-node
+  bootstrap.memory_lock: true

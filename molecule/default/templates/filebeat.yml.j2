@@ -1,0 +1,16 @@
+---
+{{ ansible_managed | comment }}
+filebeat:
+  modules:
+  inputs:
+    - type: log
+      enabled: true
+      paths:
+        - /var/log/test-log.log
+      encoding: utf8
+
+output.console:
+  pretty: true
+
+logging:
+  level: info

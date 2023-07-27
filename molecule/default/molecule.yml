@@ -1,0 +1,37 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  yamllint .
+  ansible-lint .
+platforms:
+  - name: filebeat
+    hostname: filebeat
+    image: ${MOLECULE_DISTRO:-debian:bullseye-slim}
+    privileged: false
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    groups:
+      - filebeat_group
+    tmpfs:
+      - '/run'
+      - '/run/lock'
+    command: '/lib/systemd/systemd'
+    networks:
+      - name: filebeat-network
+
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_FORCE_COLOR: 1
+    PY_COLORS: 1
+  inventory:
+    group_vars:
+      filebeat_group:
+        filebeat_version: ${FILEBEAT_VERSION:-8.9.0}
+verifier:
+  name: ansible

@@ -1,0 +1,8 @@
+---
+- name: Prepare
+  hosts: filebeat
+  tasks:
+    - name: Copy test log
+      copy:
+        src: "test-log.log"
+        dest: "/var/log/test-log.log"
