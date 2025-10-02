@@ -31,3 +31,4 @@ filebeat_service_config_file: "{{ role_path }}/templates/filebeat_service.config
 
 filebeat_package_dependencies:
   - apt-transport-https
+  - gpg
